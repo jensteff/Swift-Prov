@@ -11,7 +11,7 @@
 //swift-t/turbine/code/src/turbine ??
 
 
-int main() {
+int main() { //main is just for testing in a c enviorment
     
     sqlite3 *db = init("a.db");
 
@@ -117,29 +117,91 @@ int build_from_schema(char *filename, sqlite3 *db) //works
 
 }
 
-int insert(char * tbl, char * attr, char * vals, sqlite3 *db) { //works 
+
+
+int insert(char * tbl, char * attr, char * vals, sqlite3 *db) { //works with any insert
 
     char * err_msg;
- 
+    int allocated;
+    int size_old = strlen(vals);
+    int size_new;
+   
+    int i, count;
+    int c = 0;
 
+    for (i=0, count=2; vals[i]; i++)
+        {
+        count += (2*(vals[i] == ','));
+        count -= (vals[i] == '\'');
+        count -= (vals[i] == ' ');
+        }
+    
 
-    char * query = malloc(strlen(attr) + strlen(vals) + strlen(tbl) + 30);
-    sprintf(query, "INSERT INTO %s (%s) VALUES (%s)", tbl, attr, vals);
-    printf("%s\n", query);
+    size_new = size_old + count;
+    char * string_args =  malloc(size_new);
+
+    if(vals[0] != '\'')
+            {
+                string_args[0] = '\'';
+                c = 1;
+            }
+   
+
+    for(i=0; i < size_old; i++)
+        {
+            if (vals[i] == ',' && vals[i-1] != '\'')
+            {
+                string_args[c] = '\'';
+                c++;
+                
+            }
+
+            if (vals[i] == ',' && vals[i+1] != '\'') 
+            {
+
+                string_args[c] = vals[i];
+                if (vals[i+1] == ' ' && vals[i+2] != '\'')
+                    {i++;}
+                c++; i++;
+                string_args[c] = '\'';
+                c++;
+                
+            }
+
+                string_args[c] = vals[i];
+                c++;
+
+            
+        }
+
+    string_args[c] = '\'';
+    string_args[c+1] = '\0';
+    
+
+    char * query = malloc(strlen(attr) + strlen(string_args) + strlen(tbl) + 30);
+
+    sprintf(query, "INSERT INTO %s (%s) VALUES (%s)", tbl, attr, string_args);
+    
+
     int rc = sqlite3_exec(db, query, 0, 0, &err_msg);
     if (rc != SQLITE_OK) {
         fprintf(stderr, "Failed to insert. SQL error: %s\n", err_msg);
         sqlite3_free(err_msg);
         sqlite3_free(query);
+        sqlite3_free(string_args);
 
         return DB_INSERT_ERROR;
     }
     //printf("inserted.");
     sqlite3_free(err_msg);
     sqlite3_free(query);
+    sqlite3_free(string_args);
 
     return DB_OK;
 }
+
+   
+
 /*
 char * show_table_contents(char * tbl, sqlite3 *db){
 
