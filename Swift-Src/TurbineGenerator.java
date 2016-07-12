@@ -1,4 +1,8 @@
-/*
+/* Location: ${SwiftHome}/stc/code/src/exm/stc/tclbackend/TurbineGenerator.java
+* Modifier: Jenny Steffens
+* This is my modified version of TurbineGenerator.java. I do not own this code, except for my modifications, and 
+* it is being used for research purposes only. 
+*
  * Copyright 2013 University of Chicago and Argonne National Laboratory
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
