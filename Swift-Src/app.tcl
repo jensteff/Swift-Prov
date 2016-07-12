@@ -1,5 +1,10 @@
+# Location: ${SwiftHome}/swift-t/turbine/code/lib/app.tcl
+# Modifier: Jenny Steffens
+# This is my modified version of app.tcl. I do not this code, except my modifications, and it is
+# being used for research purposes only.
+#
 # Copyright 2013 University of Chicago and Argonne National Laboratory
-# b
+# 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
