@@ -122,10 +122,10 @@ namespace eval turbine {
     set total_duration [format "%0.3f" [ expr ($stop-$total_start)/1000.0]]
     log "shell command duration: $duration"
     # notes will hopefully be any error accumulated during the run
-   # set start [ format "%0.3f" [ expr ($start-$total_start)/1000.0  ] ]
+    set start [ format "%0.3f" [ expr ($start-$total_start)/1000.0  ] ]
     
     #puts hi
-   # set a [ format "%0.3f" [expr ([ clock milliseconds ])/1000.0 ] ] 
+    set a [ format "%0.3f" [expr ([ clock milliseconds ])/1000.0 ] ] 
 puts "single" 
   #set pointer [get_db_ptr [adlb::rank]]     
    # prov_insert ApplicationExecution applicationExecutionId,tries,startTime,try_duration,total_duration,command,stdios,arguments,site,notes $app_hash,$tries,$start,$duration,$total_duration,$cmd,$stdios,$args,$site,$notes $pointer
